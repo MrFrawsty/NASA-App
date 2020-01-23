@@ -1,0 +1,125 @@
+﻿@page "/"
+@using NASA_App.Data
+
+
+    <body>
+
+        @if (apod != null)
+        {
+            imageUri = apod.Url;
+
+        
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                     <header>
+                         <h1>
+                             Astronomy Picture Of The Day
+                         </h1>
+                     </header>
+                </div>
+
+                 </div>
+            <div class="row" >
+                <div class="col arrow-left">
+                    <button class="btn" @onclick="GetPreviousApod"><i class="fa fa-arrow-left"> </i> Back</button>
+                </div>
+                    
+
+                    <div class="col">
+                        @if (apod.Media_Type == "image")
+                        {
+                        <img src="@imageUri" class="img-fluid"  />
+                        }
+
+                        @if(apod.Media_Type == "video")
+                        {
+                    <div class="video-responsive">
+                        <iframe src="@apod.Url"
+                                height="315"
+                                width="560"
+                                allowfullsceen=""
+                                frameborder="0">
+                        </iframe>
+                    </div>
+                        }
+                    </div>
+                 
+
+                    <div class="col arrow-right">
+                        <button class="btn" @onclick="GetNextApod" ><i class="fa fa-arrow-right"></i> Forward</button>
+                    </div>
+
+
+                </div>
+
+                <div class="row justify-content-center default-padding">
+                    <div class="col-md-5 blockquote ">
+                        <p>@apod.Explanation</p>
+                    </div>
+                </div>
+
+            
+
+
+
+
+            </div>
+       
+            }
+            else
+            {
+            <p>Loading...</p>
+
+            }
+
+
+           
+</body>
+
+@code {
+
+    static readonly string apodPath = "https://api.nasa.gov/planetary/apod?api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
+
+    Apod apod;
+    Apod selectedApod;
+    Uri imageUri;
+    ApodService apodService = new ApodService();
+    string currentDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+    DateTime selectedDate = DateTime.Now;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        apod = await apodService.GetApodAsync(apodPath);
+    }
+
+    async Task GetNextApod()
+    {
+        selectedDate = apodService.NextDay(selectedDate);
+
+        apod = await apodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
+
+        
+
+        OnInitialized();
+
+    }
+
+
+    async Task GetPreviousApod()
+    {
+
+
+        selectedDate = apodService.PreviousDay(selectedDate);
+
+
+        apod = await apodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
+
+        OnInitialized();
+    }
+
+
+}
