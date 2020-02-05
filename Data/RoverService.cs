@@ -13,15 +13,21 @@ namespace NASA_App.Data
         public async Task<Rover> GetRoverDataAsync(string path)
         {
             Rover rover = null;
+          
 
             HttpResponseMessage response = await httpClient.GetAsync(path);
             if(response.IsSuccessStatusCode)
             {
                 rover = await response.Content.ReadAsAsync<Rover>();
+                
             }
 
             return rover;
         }
 
+
+      
     }
+
+
 }
