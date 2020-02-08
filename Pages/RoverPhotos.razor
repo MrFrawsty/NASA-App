@@ -8,36 +8,46 @@
             imageUri = rover.Img_Src;
 
 
-            <div class="container-fluid">
+       <div class="container-fluid">
 
-                <div class="row">
-                    <div class="col">
-                        <header>
-                            <h1>
-                              
-                            </h1>
-                        </header>
-                    </div>
-
-                </div>
-                <div class="row">
-                  
-
-
-                    <div class="col">
-                                            
-                            <a href="@rover.Photos[0].Img_Src" target="_blank">
-                                <img src="@rover.Photos[0].Img_Src" class="img-fluid" />
-                            </a>
-                        
-
-                    </div>
-
-
-
-
+            <div class="row">
+                <div class="col">
+                    <header>
+                        <h1>
+                            Curiosity
+                        </h1>
+                    </header>
                 </div>
 
+                <div class="col">
+                    <header>
+                        <h1>
+                            Other Rover
+                        </h1>
+                    </header>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col arrow-left">
+                    <button class="btn"> <i class="fa fa-arrow-left"> </i> Back</button>
+                </div>
+   
+
+                    <div class="col">
+
+                        <a href="@rover.Photos[0].Img_Src" target="_blank">
+                            <img src="@rover.Photos[0].Img_Src" class="img-fluid" />
+                        </a>
+
+                    </div>
+
+                <div class="col arrow-right">
+                    <button class="btn"><i class="fa fa-arrow-right"></i> Forward</button>
+                </div>
+
+             </div>
                 <div class="row justify-content-center default-padding">
                     <div class="col-md-5 blockquote ">
                         <p>Explanation</p>
@@ -51,16 +61,16 @@
 
             </div>
 
-        }
-        else
-        {
+            }
+            else
+            {
             <p>Loading...</p>
 
-        }
+            }
 
 
 
-    </body>
+</body>
 
 
 
