@@ -38,13 +38,13 @@
                     <div class="col">
 
                         <a href="@rover.Photos[0].Img_Src" target="_blank">
-                            <img src="@rover.Photos[0].Img_Src" class="img-fluid" />
+                            <img src="@returnedRovers[0].Img_Src" class="img-fluid" />
                         </a>
 
                     </div>
 
                 <div class="col arrow-right">
-                    <button class="btn"><i class="fa fa-arrow-right"></i> Forward</button>
+                    <button class="btn" @onclick="NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
                 </div>
 
              </div>
@@ -53,9 +53,6 @@
                         <p>Explanation</p>
                     </div>
                 </div>
-
-
-
 
 
 
@@ -76,16 +73,35 @@
 
 @code {
 
-    static readonly string roverPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
+        static readonly string roverPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
 
-   
-    Rover rover;
-    Uri imageUri;
-    RoverService roverService = new RoverService();
+        int roverPosition;
+        Rover rover;
+        Uri imageUri;
+        List<Rover> returnedRovers;
+        RoverService roverService = new RoverService();
+
 
     protected override async Task OnInitializedAsync()
     {
-        
+
         rover = await roverService.GetRoverDataAsync(roverPath);
+        returnedRovers = rover.Photos;
+        
     }
+
+     void NextPicture(List<Rover> returnedRovers)
+    {
+        for (int i = 0; i < roverPosition; i++)
+        {
+
+            rover = returnedRovers[i];
+        }
+        
+        roverPosition++;
+        OnInitialized();
+    }
+
+
+
 }
