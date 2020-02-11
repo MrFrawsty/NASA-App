@@ -9,6 +9,7 @@ namespace NASA_App.Data
     public class RoverService
     {
         static readonly HttpClient httpClient = new HttpClient();
+       
 
         public async Task<Rover> GetRoverDataAsync(string path)
         {
@@ -26,7 +27,9 @@ namespace NASA_App.Data
         }
 
 
-      
+
+
+
     }
 
 
