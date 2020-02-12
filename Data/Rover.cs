@@ -15,5 +15,9 @@ namespace NASA_App.Data
 
         public List<Rover> Photos { get; set; }
 
+        public string Earth_Date { get; set; }
+
+        public List<string> Name { get; set; }
+
     }
 }
