@@ -4,9 +4,9 @@
 
     <body>
 
-        @if (currentPhoto != null)
+        @if (roverService.currentPhoto != null)
         {
-            imageUri = currentPhoto.Img_src;
+           roverService.imageUri = roverService.currentPhoto.Img_src;
 
 
        <div class="container-fluid">
@@ -38,20 +38,20 @@
 
                     <div class="col">
 
-                        <a href="@rover.Photos[0].Img_src" target="_blank">
-                            <img src="@currentPhoto.Img_src" class="img-fluid" />
+                        <a href="@roverService.rover.Photos[0].Img_src" target="_blank">
+                            <img src="@roverService.currentPhoto.Img_src" class="img-fluid" />
                         </a>
 
                     </div>
 
                 <div class="col arrow-right">
-                    <button class="btn" @onclick="NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
+                    <button class="btn" @onclick="roverService.NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
                 </div>
 
              </div>
                 <div class="row justify-content-center default-padding">
                     <div class="col-md-5 blockquote ">
-                        <p>@currentPhoto.Camera.Full_name</p>
+                        <p>@roverService.currentPhoto.Camera.Full_name</p>
                     </div>
                 </div>
 
@@ -76,12 +76,9 @@
 
     static readonly string roverPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
 
-    public List<Photo> returnedRovers = new List<Photo>();
+    
 
-    public int roverPosition;
-    public Photo currentPhoto;
-    Rover rover;
-    Uri imageUri;
+   
 
     RoverService roverService = new RoverService();
 
@@ -89,25 +86,13 @@
     protected override async Task OnInitializedAsync()
     {
 
-        rover = await roverService.GetRoverDataAsync(roverPath);
-        returnedRovers = rover.Photos;
-        currentPhoto = returnedRovers[roverPosition];
-
+        roverService.rover = await roverService.GetRoverDataAsync(roverPath);
+        
        
     }
 
 
-    public void NextPicture()
-    {
-        for (int i = 0; i < roverPosition; i++)
-        {
-
-            currentPhoto = returnedRovers[i];
-        }
-
-        roverPosition++;
-
-    }
+  
 
 
 
