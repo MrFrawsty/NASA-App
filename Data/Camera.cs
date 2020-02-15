@@ -7,6 +7,12 @@ namespace NASA_App.Data
 {
     public class Camera
     {
-        public string Full_Name { get; set; }
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int Rover_id { get; set; }
+
+        public string Full_name { get; set; }
     }
 }

@@ -13,11 +13,11 @@ namespace NASA_App.Data
 
         public Uri Img_Src { get; set; }
 
-        public List<Rover> Photos { get; set; }
+        public List<Photo> Photos { get; set; }
 
         public string Earth_Date { get; set; }
 
-        public List<string> Name { get; set; }
+        public List<Camera> Cameras { get; set; }
 
     }
 }

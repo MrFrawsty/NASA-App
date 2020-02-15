@@ -86,8 +86,7 @@
 
     static readonly string apodPath = "https://api.nasa.gov/planetary/apod?api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
 
-    Apod apod;
-    Apod selectedApod;
+    Apod apod;  
     Uri imageUri;
     ApodService apodService = new ApodService();
     string currentDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
