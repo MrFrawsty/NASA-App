@@ -9,7 +9,7 @@ namespace NASA_App.Data
     public class RoverService
     {
         static readonly HttpClient httpClient = new HttpClient();
-        static List<Photo> returnedRovers = new List<Photo>();
+        public List<Photo> returnedRovers = new List<Photo>();
         public int roverPosition;
         public Photo currentPhoto;
         public Rover rover;
@@ -39,14 +39,23 @@ namespace NASA_App.Data
         {
             for (int i = 0; i < roverPosition; i++)
             {
-
-                currentPhoto = returnedRovers[i];
+                currentPhoto = returnedRovers[i + 1];
             }
 
             roverPosition++;
 
         }
 
+        public void PreviousPicture()
+        {
+            for (int i = roverPosition; i > roverPosition; i--)
+            {
+                currentPhoto = returnedRovers[i];
+            }
+
+            roverPosition++;
+
+        }
 
     }
 
