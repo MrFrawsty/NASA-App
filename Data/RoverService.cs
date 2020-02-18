@@ -14,13 +14,12 @@ namespace NASA_App.Data
         public Photo currentPhoto;
         public Rover rover;
         public Uri imageUri;
+        public Camera camera;
 
         public async Task<Rover> GetRoverDataAsync(string path)
         {
-            Rover rover = null;
-            Camera camera = null;
-          
-
+            camera = null;
+            rover = null;
             HttpResponseMessage response = await httpClient.GetAsync(path);
             if(response.IsSuccessStatusCode)
             {
@@ -37,14 +36,32 @@ namespace NASA_App.Data
 
         public void NextPicture()
         {
-            roverPosition++;
-            currentPhoto = returnedRovers[roverPosition];
+            if (roverPosition < returnedRovers.Count -1)
+            {
+                roverPosition++;
+                currentPhoto = returnedRovers[roverPosition];
+            }
+
+            else
+            {
+               
+                currentPhoto = returnedRovers[roverPosition];
+            }
         }
 
         public void PreviousPicture()
         {
-            roverPosition--;
-            currentPhoto = returnedRovers[roverPosition];
+            if (roverPosition > 0)
+            {
+                roverPosition--;
+                currentPhoto = returnedRovers[roverPosition];
+            }
+
+            else
+            {
+            
+                currentPhoto = returnedRovers[roverPosition];
+            }
 
         }
 
