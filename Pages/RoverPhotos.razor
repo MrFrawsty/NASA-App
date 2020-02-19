@@ -4,9 +4,9 @@
 
     <body>
 
-        @if (roverService.currentPhoto != null)
+        @if (roverService.CurrentPhoto != null)
         {
-           roverService.imageUri = roverService.currentPhoto.Img_src;
+          
 
 
        <div class="container-fluid">
@@ -38,8 +38,8 @@
 
                     <div class="col">
 
-                        <a href="@roverService.rover.Photos[0].Img_src" target="_blank">
-                            <img src="@roverService.currentPhoto.Img_src" class="img-fluid" />
+                        <a href="@roverService.CurrentPhoto.Img_src" target="_blank">
+                            <img src="@roverService.CurrentPhoto.Img_src" class="img-fluid" />
                         </a>
 
                     </div>
@@ -51,7 +51,7 @@
              </div>
                 <div class="row justify-content-center default-padding">
                     <div class="col-md-5 blockquote ">
-                        <p>@roverService.currentPhoto.Camera.Full_name</p>
+                        <p>@roverService.CurrentPhoto.Camera.Full_name</p>
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@
     protected override async Task OnInitializedAsync()
     {
 
-        roverService.rover = await roverService.GetRoverDataAsync(roverPath);
+        roverService.Rover = await roverService.GetRoverDataAsync(roverPath);
 
 
     }

@@ -11,27 +11,27 @@ namespace NASA_App.Data
         static readonly HttpClient httpClient = new HttpClient();
         public List<Photo> returnedRovers = new List<Photo>();
         static int roverPosition;
-        public Photo currentPhoto;
-        public Rover rover;
-        public Uri imageUri;
-        public Camera camera;
+        public Photo CurrentPhoto { get; set; }
+        public Rover Rover { get; set; }
+    
 
         public async Task<Rover> GetRoverDataAsync(string path)
         {
-            camera = null;
-            rover = null;
+            Camera camera; 
+             Rover = null;
+
             HttpResponseMessage response = await httpClient.GetAsync(path);
             if(response.IsSuccessStatusCode)
             {
-                rover = await response.Content.ReadAsAsync<Rover>();
+                Rover = await response.Content.ReadAsAsync<Rover>();
                 camera = await response.Content.ReadAsAsync<Camera>();
 
-                returnedRovers = rover.Photos;
-                currentPhoto = returnedRovers[roverPosition];
+                returnedRovers = Rover.Photos;
+                CurrentPhoto = returnedRovers[roverPosition];
 
             }
 
-            return rover;
+            return Rover;
         }
 
         public void NextPicture()
@@ -39,13 +39,13 @@ namespace NASA_App.Data
             if (roverPosition < returnedRovers.Count -1)
             {
                 roverPosition++;
-                currentPhoto = returnedRovers[roverPosition];
+                CurrentPhoto = returnedRovers[roverPosition];
             }
 
             else
             {
                
-                currentPhoto = returnedRovers[roverPosition];
+                CurrentPhoto = returnedRovers[roverPosition];
             }
         }
 
@@ -54,13 +54,13 @@ namespace NASA_App.Data
             if (roverPosition > 0)
             {
                 roverPosition--;
-                currentPhoto = returnedRovers[roverPosition];
+                CurrentPhoto = returnedRovers[roverPosition];
             }
 
             else
             {
             
-                currentPhoto = returnedRovers[roverPosition];
+                CurrentPhoto = returnedRovers[roverPosition];
             }
 
         }
