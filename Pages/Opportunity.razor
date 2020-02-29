@@ -1,0 +1,99 @@
+﻿@page "/Opportunity"
+@using NASA_App.Data
+
+
+<body>
+
+    @if (roverService.CurrentPhoto != null)
+    {
+
+
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <header>
+                        <h1>
+                            Opportunity
+                        </h1>
+                        <h4>
+
+                            @randomDate.ToString("yyyy-MM-dd")
+
+                        </h4>
+                    </header>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col arrow-left">
+                    <button class="btn" @onclick="roverService.PreviousPicture"> <i class="fa fa-arrow-left"> </i> Back</button>
+                </div>
+
+
+                <div class="col">
+
+                    <a href="@roverService.CurrentPhoto.Img_src" target="_blank">
+                        <img src="@roverService.CurrentPhoto.Img_src" class="img-fluid" />
+                    </a>
+
+                </div>
+
+                <div class="col arrow-right">
+                    <button class="btn" @onclick="roverService.NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center default-padding">
+                <div class="col-md-5 blockquote text-lg-center">
+                    <p>@roverService.CurrentPhoto.Camera.Full_name</p>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    }
+    else
+    {
+        <p>Loading...</p>
+
+    }
+
+
+
+</body>
+
+
+
+@code {
+
+    RoverService roverService = new RoverService();
+    static DateTime randomDate;
+    static string roverPath;
+
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        randomDate = roverService.GetRandomDate();
+       
+        
+        roverPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=" + randomDate.ToString("yyyy-MM-dd") + "&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
+
+        roverService.Rover = await roverService.GetRoverDataAsync(roverPath);
+
+
+    }
+
+
+
+}
+
