@@ -30,10 +30,15 @@ namespace NASA_App.Data
                 camera = await response.Content.ReadAsAsync<Camera>();
 
                 returnedPhotos = Rover.Photos;
+                returnedPhotos.Clear();
+
                 if (returnedPhotos.Count > 0)
-                {
-                    CurrentPhoto = returnedPhotos[RoverPosition];
-                }
+                    {
+                       
+                        CurrentPhoto = returnedPhotos[RoverPosition];
+                    }
+
+               
             }
 
             return Rover;
