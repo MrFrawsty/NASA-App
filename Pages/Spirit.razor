@@ -4,10 +4,8 @@
 
 <body>
 
-    @if (roverService.CurrentPhoto != null)
+    @if (roverService.Rover != null)
     {
-
-
 
         <div class="container-fluid">
 
@@ -32,15 +30,33 @@
                 <div class="col arrow-left">
                     <button class="btn" @onclick="roverService.PreviousPicture"> <i class="fa fa-arrow-left"> </i> Back</button>
                 </div>
+                @try
+                {
+                    @if (roverService.returnedPhotos != null)
+                    {
 
+                        <div class="col">
 
-                <div class="col">
+                            <a href="@roverService.CurrentPhoto.Img_src" target="_blank">
+                                <img src="@roverService.CurrentPhoto.Img_src" class="img-fluid" />
+                            </a>
 
-                    <a href="@roverService.CurrentPhoto.Img_src" target="_blank">
-                        <img src="@roverService.CurrentPhoto.Img_src" class="img-fluid" />
-                    </a>
+                        </div>
+                    }
 
-                </div>
+                    else
+                    {
+                        <div class="col justify-content-center">
+
+                            <b>Oops! Looks like there's no photos for this date!</b>
+
+                        </div>
+                    }
+                    @catch (NullReferenceException sdf)
+                    {
+
+                    }
+                    }
 
                 <div class="col arrow-right">
                     <button class="btn" @onclick="roverService.NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
