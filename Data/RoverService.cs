@@ -9,9 +9,9 @@ namespace NASA_App.Data
     public class RoverService
     {
         static readonly HttpClient httpClient = new HttpClient();
-        public List<Photo> returnedPhotos { get; set; }
+        public List<Photo> returnedPhotos;
         public int RoverPosition { get; set; }
-        public Photo CurrentPhoto { get; set; }
+        public Photo CurrentPhoto;
         public Rover Rover { get; set; }
         
     
@@ -29,16 +29,22 @@ namespace NASA_App.Data
                 Rover = await response.Content.ReadAsAsync<Rover>();
                 camera = await response.Content.ReadAsAsync<Camera>();
 
-                returnedPhotos = Rover.Photos;
-                returnedPhotos.Clear();
 
-                if (returnedPhotos.Count > 0)
-                    {
-                       
-                        CurrentPhoto = returnedPhotos[RoverPosition];
-                    }
+                returnedPhotos = null;
 
-               
+                if (returnedPhotos != null)
+                {
+                    CurrentPhoto = returnedPhotos[RoverPosition];
+                    returnedPhotos = Rover.Photos;
+                }
+
+                else
+                {
+                    await RetryConnectionAsync(path);
+                }
+                
+           
+
             }
 
             return Rover;
@@ -84,6 +90,36 @@ namespace NASA_App.Data
             return start.AddDays(random.Next(range));
 
         }
+
+        public async Task<Rover> RetryConnectionAsync(string path)
+        {
+            Camera camera;
+            Rover = null;
+            RoverPosition = 0;
+
+            HttpResponseMessage response = await httpClient.GetAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+
+                Rover = await response.Content.ReadAsAsync<Rover>();
+                camera = await response.Content.ReadAsAsync<Camera>();
+
+
+                
+
+                if (returnedPhotos != null)
+                {
+                    CurrentPhoto = returnedPhotos[RoverPosition];
+                    returnedPhotos = Rover.Photos;
+                }
+
+
+
+            }
+
+            return Rover;
+        }
+
 
 
     }
