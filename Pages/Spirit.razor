@@ -34,7 +34,7 @@
 
 
 
-                @if (roverService.returnedPhotos.Count != null)
+                @if (roverService.CurrentPhoto != null)
                 {
 
                     <div class="col justify-content-center">
@@ -45,32 +45,6 @@
 
                     </div>
                 }
-
-
-                else
-                {
-
-                    <div class="col justify-content-center">
-
-                        <a>
-                            Oops
-                        </a>
-
-                    </div>
-
-
-
-
-                }
-
-
-
-
-
-
-
-
-
 
 
                 <div class="col arrow-right">
@@ -85,9 +59,11 @@
                 </div>
             </div>
 
-
-
         </div>
+
+
+
+
 
     }
     else

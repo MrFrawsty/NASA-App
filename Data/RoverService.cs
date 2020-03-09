@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace NASA_App.Data
             {
                 
                 Rover = await response.Content.ReadAsAsync<Rover>();
+                //TODO look at camera 
                 camera = await response.Content.ReadAsAsync<Camera>();
 
 
@@ -37,13 +39,6 @@ namespace NASA_App.Data
                     CurrentPhoto = returnedPhotos[RoverPosition];
                     returnedPhotos = Rover.Photos;
                 }
-
-                else
-                {
-                    await RetryConnectionAsync(path);
-                }
-                
-           
 
             }
 
@@ -89,35 +84,6 @@ namespace NASA_App.Data
             int range = (end - start).Days;
             return start.AddDays(random.Next(range));
 
-        }
-
-        public async Task<Rover> RetryConnectionAsync(string path)
-        {
-            Camera camera;
-            Rover = null;
-            RoverPosition = 0;
-
-            HttpResponseMessage response = await httpClient.GetAsync(path);
-            if (response.IsSuccessStatusCode)
-            {
-
-                Rover = await response.Content.ReadAsAsync<Rover>();
-                camera = await response.Content.ReadAsAsync<Camera>();
-
-
-                
-
-                if (returnedPhotos != null)
-                {
-                    CurrentPhoto = returnedPhotos[RoverPosition];
-                    returnedPhotos = Rover.Photos;
-                }
-
-
-
-            }
-
-            return Rover;
         }
 
 
