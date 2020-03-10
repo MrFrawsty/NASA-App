@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 
 namespace NASA_App.Data
 {
@@ -11,7 +14,7 @@ namespace NASA_App.Data
         static readonly HttpClient httpClient = new HttpClient();
         public List<Photo> returnedPhotos;
         public int RoverPosition { get; set; }
-        public Photo CurrentPhoto;
+        public Photo CurrentPhoto { get; set; }
         public Rover Rover { get; set; }
         
     
@@ -27,23 +30,16 @@ namespace NASA_App.Data
             {
                 
                 Rover = await response.Content.ReadAsAsync<Rover>();
+                //TODO look at camera 
                 camera = await response.Content.ReadAsAsync<Camera>();
 
-
-                returnedPhotos = null;
+                returnedPhotos = Rover.Photos;
 
                 if (returnedPhotos != null)
                 {
                     CurrentPhoto = returnedPhotos[RoverPosition];
-                    returnedPhotos = Rover.Photos;
+                    
                 }
-
-                else
-                {
-                    await RetryConnectionAsync(path);
-                }
-                
-           
 
             }
 
@@ -91,35 +87,13 @@ namespace NASA_App.Data
 
         }
 
-        public async Task<Rover> RetryConnectionAsync(string path)
+        public async Task NoPictureFound(string path)
         {
-            Camera camera;
-            Rover = null;
-            RoverPosition = 0;
+            await Task.Delay(3000);
+            
+            await GetRoverDataAsync(path);
 
-            HttpResponseMessage response = await httpClient.GetAsync(path);
-            if (response.IsSuccessStatusCode)
-            {
-
-                Rover = await response.Content.ReadAsAsync<Rover>();
-                camera = await response.Content.ReadAsAsync<Camera>();
-
-
-                
-
-                if (returnedPhotos != null)
-                {
-                    CurrentPhoto = returnedPhotos[RoverPosition];
-                    returnedPhotos = Rover.Photos;
-                }
-
-
-
-            }
-
-            return Rover;
         }
-
 
 
     }

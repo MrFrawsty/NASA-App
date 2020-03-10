@@ -33,10 +33,6 @@
 
 
 
-
-                @if (roverService.returnedPhotos.Count != null)
-                {
-
                     <div class="col justify-content-center">
 
                         <a href="@roverService.CurrentPhoto.Img_src" target="_blank">
@@ -44,33 +40,7 @@
                         </a>
 
                     </div>
-                }
-
-
-                else
-                {
-
-                    <div class="col justify-content-center">
-
-                        <a>
-                            Oops
-                        </a>
-
-                    </div>
-
-
-
-
-                }
-
-
-
-
-
-
-
-
-
+                
 
 
                 <div class="col arrow-right">
@@ -85,14 +55,18 @@
                 </div>
             </div>
 
-
-
         </div>
+
+
+
+
 
     }
     else
     {
         <p>Loading...</p>
+
+        
 
     }
 
@@ -119,7 +93,7 @@
 
         roverService.Rover = await roverService.GetRoverDataAsync(roverPath);
 
-
+       
     }
 
 
