@@ -16,30 +16,40 @@ namespace NASA_App.Data
         public int RoverPosition { get; set; }
         public Photo CurrentPhoto { get; set; }
         public Rover Rover { get; set; }
-        
-    
+        //TODO fix naming violation
+        public DateTime randomDate { get; set; }
+        public string RoverPath { get; set; }
 
-        public async Task<Rover> GetRoverDataAsync(string path)
+        public async Task<Rover> GetRoverDataAsync()
         {
+            randomDate = GetRandomDate();
             Camera camera; 
              Rover = null;
             RoverPosition = 0;
+            RoverPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=" + randomDate.ToString("yyyy-MM-dd") + "&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
 
-            HttpResponseMessage response = await httpClient.GetAsync(path);
+            HttpResponseMessage response = await httpClient.GetAsync(RoverPath);
             if(response.IsSuccessStatusCode)
             {
                 
+               
                 Rover = await response.Content.ReadAsAsync<Rover>();
                 //TODO look at camera 
                 camera = await response.Content.ReadAsAsync<Camera>();
 
                 returnedPhotos = Rover.Photos;
 
-                if (returnedPhotos != null)
+                if (returnedPhotos.Count > 0)
                 {
                     CurrentPhoto = returnedPhotos[RoverPosition];
                     
                 }
+
+                else
+                {
+                   await this.GetRoverDataAsync();
+                }
+
 
             }
 
@@ -87,13 +97,6 @@ namespace NASA_App.Data
 
         }
 
-        public async Task NoPictureFound(string path)
-        {
-            await Task.Delay(3000);
-            
-            await GetRoverDataAsync(path);
-
-        }
 
 
     }

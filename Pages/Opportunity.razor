@@ -19,7 +19,7 @@
                         </h1>
                         <h4>
 
-                            @randomDate.ToString("yyyy-MM-dd")
+                            @roverService.randomDate.ToString("yyyy-MM-dd")
 
                         </h4>
                     </header>
@@ -74,7 +74,7 @@
 @code {
 
     RoverService roverService = new RoverService();
-    static DateTime randomDate;
+   
     static string roverPath;
 
 
@@ -83,12 +83,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        randomDate = roverService.GetRandomDate();
+       
        
         
-        roverPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=" + randomDate.ToString("yyyy-MM-dd") + "&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
+       
 
-        roverService.Rover = await roverService.GetRoverDataAsync(roverPath);
+        roverService.Rover = await roverService.GetRoverDataAsync();
 
 
     }
