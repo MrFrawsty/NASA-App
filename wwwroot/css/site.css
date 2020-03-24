@@ -168,7 +168,6 @@ header {
     }
 
     .main .top-row {
-        position: sticky;
         top: 0;
     }
 
@@ -221,5 +220,9 @@ header {
 
     .text-container {
         margin-top: 3%;
+    }
+
+    .col {
+        text-align: center;
     }
    

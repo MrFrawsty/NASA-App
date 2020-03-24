@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NASA App", "NASA App.csproj", "{304CAAFD-7929-483B-B79B-284B97947751}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NasaAppNUnitTests", "..\NasaAppNUnitTests\NasaAppNUnitTests.csproj", "{44C65FB0-33EA-4D5B-9CD4-8EAF41F96AA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{304CAAFD-7929-483B-B79B-284B97947751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{304CAAFD-7929-483B-B79B-284B97947751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{304CAAFD-7929-483B-B79B-284B97947751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44C65FB0-33EA-4D5B-9CD4-8EAF41F96AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C65FB0-33EA-4D5B-9CD4-8EAF41F96AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C65FB0-33EA-4D5B-9CD4-8EAF41F96AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C65FB0-33EA-4D5B-9CD4-8EAF41F96AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
