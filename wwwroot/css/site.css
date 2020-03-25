@@ -220,9 +220,16 @@ header {
 
     .text-container {
         margin-top: 3%;
+        justify-content: center;
     }
 
     .col {
+        text-align: center;
+    }
+
+    .loading {
+        margin-top: 25%;
+        width: 100%;
         text-align: center;
     }
    
