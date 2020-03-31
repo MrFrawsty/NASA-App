@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<div class="nav-menu">
+<div class="nav-menu @NavMenuCssClass">
     <ul class="nav flex-column">
 
         <li class="nav-item px-3">
@@ -42,7 +42,7 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenu = false;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
