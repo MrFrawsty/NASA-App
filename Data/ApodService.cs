@@ -2,49 +2,85 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 namespace NASA_App.Data
 {
-    public class ApodService
+    public class ApodService : IApodService
     {
-        
-        static readonly HttpClient httpClient = new HttpClient();
+        private readonly IHttpClientFactory _clientFactory;
+
+
+        public ApodService(IHttpClientFactory clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
 
         public async Task<Apod> GetApodAsync(string path)
         {
+            var client = _clientFactory.CreateClient();
             Apod apod = null;
+            var request = new HttpRequestMessage(HttpMethod.Get, path);
 
-            HttpResponseMessage response = await httpClient.GetAsync(path);
-            if(response.IsSuccessStatusCode)
+            try
             {
-                apod = await response.Content.ReadAsAsync<Apod>();
-            }
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                using var responseStream = await response.Content.ReadAsStreamAsync();
+                apod = await JsonSerializer.DeserializeAsync<Apod>(responseStream);
 
                 return apod;
-            
+            }
+
+            catch(HttpRequestException e)
+            {
+                var message = e.Message;
+                return new Apod();
+            }
+
         }
 
         public async Task<Apod> GetNextApodAsync(string path, string date)
         {
-            Apod nextApod = null;
+            var client = _clientFactory.CreateClient();
+            Apod nextApod = new Apod();
 
-            HttpResponseMessage response = await httpClient.GetAsync(path + "&date=" + date);
-            if (response.IsSuccessStatusCode)
+            var request = new HttpRequestMessage(HttpMethod.Get, path + "&date=" + date);
+
+            try
+            { 
+                 HttpResponseMessage response = await client.SendAsync(request);
+              
+                  using var responseStream = await response.Content.ReadAsStreamAsync();
+                  nextApod = await JsonSerializer.DeserializeAsync<Apod>(responseStream);
+                  return nextApod;
+            }
+            catch(HttpRequestException e)
             {
-                nextApod = await response.Content.ReadAsAsync<Apod>();
+                var message = e.Message;
+                return new Apod();
             }
 
-            return nextApod;
         }
 
 
-       public DateTime NextDay(DateTime selectedDate)
+        public DateTime NextDay(DateTime selectedDate)
         {
-            if(selectedDate < DateTime.Now)
-            selectedDate = selectedDate.AddDays(01);
+            if (selectedDate.Date == DateTime.Now.Date)
+            {
 
-            return selectedDate;
+                return selectedDate;
+            }
+
+            else
+            {
+               
+                selectedDate = selectedDate.AddDays(01);
+                return selectedDate;
+            }
+
         }
 
         public DateTime PreviousDay(DateTime selectedDate)

@@ -28,6 +28,8 @@ namespace NASA_App
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHttpClient();
+            services.AddSingleton<IApodService, ApodService>();
             services.AddSingleton<WeatherForecastService>();
         }
 

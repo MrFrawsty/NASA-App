@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using NASA_App.Data
+@inject IApodService ApodService
 
 
     <body>
@@ -29,14 +30,14 @@
                     
 
                     <div class="col">
-                        @if (apod.Media_Type == "image")
+                        @if (apod.MediaType == "image")
                         {
                         <a href="@imageUri" target="_blank">
                             <img src="@imageUri" class="img-fluid" />
                         </a>
                         }
 
-                        @if(apod.Media_Type == "video")
+                        @if(apod.MediaType == "video")
                         {
                     <div class="video-responsive">
                         <iframe src="@apod.Url"
@@ -88,7 +89,7 @@
 
     Apod apod;  
     Uri imageUri;
-    ApodService apodService = new ApodService();
+   
     string currentDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
     DateTime selectedDate = DateTime.Now;
 
@@ -96,14 +97,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        apod = await apodService.GetApodAsync(apodPath);
+        apod = await ApodService.GetApodAsync(apodPath);
     }
 
     async Task GetNextApod()
     {
-        selectedDate = apodService.NextDay(selectedDate);
+        selectedDate = ApodService.NextDay(selectedDate);
 
-        apod = await apodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
+        apod = await ApodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
 
         
 
@@ -116,10 +117,10 @@
     {
 
 
-        selectedDate = apodService.PreviousDay(selectedDate);
+        selectedDate = ApodService.PreviousDay(selectedDate);
 
 
-        apod = await apodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
+        apod = await ApodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
 
         OnInitialized();
     }
