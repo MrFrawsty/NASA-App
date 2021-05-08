@@ -1,15 +1,16 @@
 ﻿@page "/curiosity"
 @using NASA_App.Data
-
-
-    <body>
-
-        @if (roverService.CurrentPhoto != null)
-        {
+@using NASA_App.Data.Models 
+@inject IRoverPhotoService RoverPhotoService
 
 
 
-       <div class="container-fluid">
+<body>
+
+    @if (_photos != null && _photos.Count > 0)
+    {
+
+        <div class="container-fluid">
 
             <div class="row">
                 <div class="col">
@@ -18,8 +19,8 @@
                             Curiosity
                         </h1>
                         <h4>
-                            
-                            @roverService.RandomDate.ToString("yyyy-MM-dd")
+
+                            @_photos[_index].EarthDate
 
                         </h4>
                     </header>
@@ -30,40 +31,46 @@
 
             <div class="row">
                 <div class="col arrow-left">
-                    <button class="btn"@onclick="roverService.PreviousPicture"> <i class="fa fa-arrow-left"> </i> Back</button>
+                    <button class="btn" @onclick="PreviousPicture"> <i class="fa fa-arrow-left"> </i> Back</button>
                 </div>
-   
 
-                    <div class="col justify-content-center">
 
-                        <a href="@roverService.CurrentPhoto.Img_src" target="_blank">
-                            <img src="@roverService.CurrentPhoto.Img_src" class="img-fluid" />
-                        </a>
+                <div class="col justify-content-center">
 
-                    </div>
+                    <a href="@_photos[_index].ImgSrc" target="_blank">
+                        <img src="@_photos[_index].ImgSrc" class="img-fluid" />
+                    </a>
+
+                </div>
 
                 <div class="col arrow-right">
-                    <button class="btn" @onclick="roverService.NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
+                    <button class="btn" @onclick="NextPicture"><i class="fa fa-arrow-right"></i> Forward</button>
                 </div>
-
-             </div>
-
-                <div class="row justify-content-center default-padding">
-                    <div class="col-md-5 blockquote text-lg-center">
-                        <p>@roverService.CurrentPhoto.Camera.Full_name</p>
-                    </div>
-                </div>
-
-
 
             </div>
 
-            }
-            else
-            {
-            <p>Loading...</p>
+            <div class="row justify-content-center default-padding">
+                <div class="col-md-5 blockquote text-lg-center">
+                    <p>@_photos[_index].Camera.FullName</p>
+                </div>
+            </div>
 
-            }
+
+
+        </div>
+
+    }
+     else if (_photos != null && _photos.Count == 0)
+     {
+        <p>
+            Oops there doesn't appear to be any photos for @date
+        </p>
+     }
+    else
+    {
+        <p>Loading...</p>
+
+    }
 
 
 
@@ -73,22 +80,41 @@
 
 @code {
 
-    RoverService roverService = new RoverService();
 
 
 
 
-
+    private List<Photo> _photos;
+    private int _index = 0;
+    private string date;
 
     protected override async Task OnInitializedAsync()
     {
-   
-       
-        roverService.Rover = await roverService.GetRoverDataAsync();
+        date = RoverPhotoService.GetRandomDate().ToString("yyyy-MM-dd");
+
+        string path = "https://api.nasa.gov/mars-photos/api/v1/rovers/Curiosity/photos?earth_date="
+        + date + "&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
+
+        _photos = await RoverPhotoService.GetRoverPhotos(path);
+
+
 
 
     }
 
+    public void NextPicture()
+    {
+        if (_index < _photos.Count - 1)
+
+            _index++;
+
+    }
+
+    public void PreviousPicture()
+    {
+        if (_index > 0)
+            _index--;
+    }
 
 
 }

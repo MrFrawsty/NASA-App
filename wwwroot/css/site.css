@@ -223,3 +223,7 @@ header {
         margin-top: 3%;
     }
    
+    .loading-text{
+        display:flex;
+        align-content:center;
+    }

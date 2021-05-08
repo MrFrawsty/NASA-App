@@ -30,6 +30,7 @@ namespace NASA_App
             services.AddServerSideBlazor();
             services.AddHttpClient();
             services.AddSingleton<IApodService, ApodService>();
+            services.AddSingleton<IRoverPhotoService, RoverPhotoService>();
             services.AddSingleton<WeatherForecastService>();
         }
 

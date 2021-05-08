@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NASA_App.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace NASA_App.Data
 {
-    public class Photo
+    public class RoverPhoto
     {
     public int Id { get; set; }
 
