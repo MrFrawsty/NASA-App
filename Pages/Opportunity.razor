@@ -71,7 +71,7 @@
     else if(_photos != null && _photos.Count == 0)
             {
                 <p class="text-center">
-                    Oops there doesn't appear to be any photos for @date
+                    Oops there doesn't appear to be any photos for @_date
                 </p>
             }
     else
@@ -88,27 +88,28 @@
 @code {
 
 
-    public List<Photo> _photos;
-    public int _index = 0;
-    string date;
-    string _displayIndex;
+    private List<Photo> _photos;
+    private int _index = 0;
+    private string _date;
+    private string _displayIndex;
 
     protected override async Task OnInitializedAsync()
     {
-        date = RoverPhotoService.GetRandomDate().ToString("yyyy-MM-dd");
 
-        string path = "https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date="
-        + date + "&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
+        string partialPath = "https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=";
 
-        _photos = await RoverPhotoService.GetRoverPhotos(path);
+
+        _photos = await RoverPhotoService.GetRoverPhotos(partialPath);
 
         _displayIndex = RoverPhotoService.DisplayPhotoIndex(_index, _photos.Count);
 
-
-
+        if (_photos != null && _photos.Count > 0)
+            _date = _photos[_index].EarthDate;
+        else
+            _date = "";
     }
 
-    public void NextPicture()
+    private void NextPicture()
     {
         if (_index < _photos.Count - 1)
 
@@ -117,7 +118,7 @@
 
     }
 
-    public void PreviousPicture()
+    private void PreviousPicture()
     {
         if (_index > 0)
             _index--;

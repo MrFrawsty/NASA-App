@@ -69,11 +69,6 @@
                     </div>
                 </div>
 
-            
-
-
-
-
             </div>
        
             }
@@ -89,8 +84,6 @@
 
 @code {
 
-    static readonly string apodPath = "https://api.nasa.gov/planetary/apod?api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
-
     Apod apod;  
     Uri imageUri;
    
@@ -98,19 +91,16 @@
     DateTime selectedDate = DateTime.Now;
 
 
-
     protected override async Task OnInitializedAsync()
     {
-        apod = await ApodService.GetApodAsync(apodPath);
+        apod = await ApodService.GetApodAsync();
     }
 
     async Task GetNextApod()
     {
         selectedDate = ApodService.NextDay(selectedDate);
 
-        apod = await ApodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
-
-        
+        apod = await ApodService.GetNextApodAsync(selectedDate.ToString("yyyy-MM-dd"));
 
         OnInitialized();
 
@@ -119,15 +109,11 @@
 
     async Task GetPreviousApod()
     {
-
-
         selectedDate = ApodService.PreviousDay(selectedDate);
 
-
-        apod = await ApodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
+        apod = await ApodService.GetNextApodAsync(selectedDate.ToString("yyyy-MM-dd"));
 
         OnInitialized();
     }
-
 
 }

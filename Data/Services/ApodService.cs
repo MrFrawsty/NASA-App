@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 
 namespace NASA_App.Data
 {
     public class ApodService : IApodService
     {
         private readonly IHttpClientFactory _clientFactory;
-
+        private static readonly string _path = "https://api.nasa.gov/planetary/apod?api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
 
         public ApodService(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
 
-        public async Task<Apod> GetApodAsync(string path)
+        public async Task<Apod> GetApodAsync()
         {
             var client = _clientFactory.CreateClient();
             Apod apod = null;
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var request = new HttpRequestMessage(HttpMethod.Get, _path);
 
             try
             {
@@ -42,12 +39,12 @@ namespace NASA_App.Data
 
         }
 
-        public async Task<Apod> GetNextApodAsync(string path, string date)
+        public async Task<Apod> GetNextApodAsync(string date)
         {
             var client = _clientFactory.CreateClient();
             Apod nextApod = new Apod();
 
-            var request = new HttpRequestMessage(HttpMethod.Get, path + "&date=" + date);
+            var request = new HttpRequestMessage(HttpMethod.Get, _path + "&date=" + date);
 
             try
             { 
@@ -76,7 +73,6 @@ namespace NASA_App.Data
 
             else
             {
-               
                 selectedDate = selectedDate.AddDays(01);
                 return selectedDate;
             }

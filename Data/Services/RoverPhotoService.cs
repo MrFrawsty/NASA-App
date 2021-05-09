@@ -1,7 +1,6 @@
 ﻿using NASA_App.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -11,17 +10,20 @@ namespace NASA_App.Data
     public class RoverPhotoService : IRoverPhotoService
     {
         private readonly IHttpClientFactory _clientFactory;
-
+        private readonly string _key = "&api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
 
         public RoverPhotoService(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
 
-        public async Task<List<Photo>> GetRoverPhotos(string path)
+        
+
+        public async Task<List<Photo>> GetRoverPhotos(string partialPath)
         {
+            var fullPath = partialPath + GetRandomDate() + _key;
             var client = _clientFactory.CreateClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var request = new HttpRequestMessage(HttpMethod.Get, fullPath);
             
 
             try
@@ -39,18 +41,19 @@ namespace NASA_App.Data
             }
         }
 
-        public string DisplayPhotoIndex(int idx, int count)
+        public string DisplayPhotoIndex(int index, int count)
         {
-            return $"{idx + 1}" + "/" + $"{count}";
+            return $"{index + 1}" + "/" + $"{count}";
         }
 
-        public DateTime GetRandomDate()
+        
+        public string GetRandomDate()
         {
             Random random = new Random();
             DateTime start = new DateTime(2013, 1, 1);
             DateTime end = new DateTime(2015, 12, 31);
             int range = (end - start).Days;
-            return start.AddDays(random.Next(range));
+            return start.AddDays(random.Next(range)).ToString("yyyy-MM-dd");
 
         }
     }
