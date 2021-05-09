@@ -9,6 +9,6 @@ namespace NASA_App.Data
     {
         DateTime GetRandomDate();
         Task<List<Photo>> GetRoverPhotos(string path);
-
+        string DisplayPhotoIndex(int idx, int count);
     }
 }

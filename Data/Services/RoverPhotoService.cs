@@ -11,10 +11,7 @@ namespace NASA_App.Data
     public class RoverPhotoService : IRoverPhotoService
     {
         private readonly IHttpClientFactory _clientFactory;
-        private List<RoverPhoto> _roverPhotos;
-        private Root _root;
-        private int _currentPhotoIndex = 0;
-        private string _photoPath;
+
 
         public RoverPhotoService(IHttpClientFactory clientFactory)
         {
@@ -42,7 +39,10 @@ namespace NASA_App.Data
             }
         }
 
-
+        public string DisplayPhotoIndex(int idx, int count)
+        {
+            return $"{idx + 1}" + "/" + $"{count}";
+        }
 
         public DateTime GetRandomDate()
         {

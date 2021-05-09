@@ -31,7 +31,7 @@ namespace NASA_App
             services.AddHttpClient();
             services.AddSingleton<IApodService, ApodService>();
             services.AddSingleton<IRoverPhotoService, RoverPhotoService>();
-            services.AddSingleton<WeatherForecastService>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
