@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using NASA_App.Data
+@inject IApodService ApodService
 
 
     <body>
@@ -17,6 +18,10 @@
                          <h1>
                              Astronomy Picture Of The Day
                          </h1>
+
+                         <h4>
+                             @selectedDate.Date.ToString("yyyy-MM-dd")
+                         </h4>
                      </header>
                 </div>
 
@@ -29,14 +34,14 @@
                     
 
                     <div class="col">
-                        @if (apod.Media_Type == "image")
+                        @if (apod.MediaType == "image")
                         {
                         <a href="@imageUri" target="_blank">
                             <img src="@imageUri" class="img-fluid" />
                         </a>
                         }
 
-                        @if(apod.Media_Type == "video")
+                        @if(apod.MediaType == "video")
                         {
                     <div class="video-responsive">
                         <iframe src="@apod.Url"
@@ -64,11 +69,6 @@
                     </div>
                 </div>
 
-            
-
-
-
-
             </div>
        
             }
@@ -84,28 +84,23 @@
 
 @code {
 
-    static readonly string apodPath = "https://api.nasa.gov/planetary/apod?api_key=HbTKyhkhfs0fqB7QalcH4XuQJ9VzelFT3Lgxxspa";
-
     Apod apod;  
     Uri imageUri;
-    ApodService apodService = new ApodService();
+   
     string currentDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
     DateTime selectedDate = DateTime.Now;
 
 
-
     protected override async Task OnInitializedAsync()
     {
-        apod = await apodService.GetApodAsync(apodPath);
+        apod = await ApodService.GetApodAsync();
     }
 
     async Task GetNextApod()
     {
-        selectedDate = apodService.NextDay(selectedDate);
+        selectedDate = ApodService.NextDay(selectedDate);
 
-        apod = await apodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
-
-        
+        apod = await ApodService.GetNextApodAsync(selectedDate.ToString("yyyy-MM-dd"));
 
         OnInitialized();
 
@@ -114,15 +109,11 @@
 
     async Task GetPreviousApod()
     {
+        selectedDate = ApodService.PreviousDay(selectedDate);
 
-
-        selectedDate = apodService.PreviousDay(selectedDate);
-
-
-        apod = await apodService.GetNextApodAsync(apodPath, selectedDate.ToString("yyyy-MM-dd"));
+        apod = await ApodService.GetNextApodAsync(selectedDate.ToString("yyyy-MM-dd"));
 
         OnInitialized();
     }
-
 
 }
